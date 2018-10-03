@@ -13,37 +13,45 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-// var indexRouter = require('./routes/index');
-// var photosRouter = require('./routes/photo');
-
 var app = express();
 
-var Imageschema = new mongoose.Schema({
-  format:  String,
-  width: Number,
-  height: Number,
-  filename: String,
-  id : Number,
-  author : String,
-  author_url : String,
-  post_url : String
-});
+var indexRouter = require('./routes/index');
+var authorRouter = require('./routes/author');
 
-var Images = mongoose.model('Images', Imageschema);
+
 app.use(cors())
-app.get('/', (req, res) => {
-  console.log('안녕안녕')
-  Images.find({})
-  .then(data => res.send(data))
-});
 
-app.get('/author', (req, res) => {
-  console.log('리퀘스트파람스는 어디에 콘솔이 찌키까요?', req.query.name)
-  Images.find({author: req.query.name})
-  .then(data => {
-    res.send(data)
-    console.log(data)})
-});
+app.use('/author', authorRouter);
+app.use('/', indexRouter);
+
+
+
+
+// var Imageschema = new mongoose.Schema({
+//   format:  String,
+//   width: Number,
+//   height: Number,
+//   filename: String,
+//   id : Number,
+//   author : String,
+//   author_url : String,
+//   post_url : String
+// });
+
+
+// app.get('/', (req, res) => {
+//   console.log('안녕안녕')
+//   Images.find({})
+//   .then(data => res.send(data))
+// });
+
+// app.get('/author', (req, res) => {
+//   console.log('리퀘스트파람스는 어디에 콘솔이 찌키까요?', req.query.name)
+//   Images.find({author: req.query.name})
+//   .then(data => {
+//     res.send(data)
+//     console.log(data)})
+// });
 
 
 // view engine setup
@@ -56,7 +64,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', indexRouter);
+
 // app.use('/photos', photosRouter);
 
 // catch 404 and forward to error handler

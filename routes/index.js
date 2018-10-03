@@ -1,16 +1,12 @@
 var express = require('express');
 var router = express.Router();
-// var photo = require('../db/schema');
+var Images = require('../db/schema');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  console.log('안녕안녕')
   Images.find({})
-  .then(data => console.log(data))
-  // .then(data => {
-  //   console.log(data);
-  //   res.send(data);
-  // })
+  .then(data => res.send(data))
 });
 
 module.exports = router;
-
